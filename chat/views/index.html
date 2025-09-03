@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Schlama Chat</title>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.20/dist/full.css" rel="stylesheet" type="text/css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.6/dist/htmx.min.js"
+    integrity="sha384-Akqfrbj/HpNVo8k11SXBb6TlBWmXXlYQrCSqEWmyKJe+hDm3Z/B2WVG4smwBkRVm"
+    crossorigin="anonymous"></script>
+</head>
+
+<body class="bg-base-200 min-h-screen min-w-screen h-screen w-screen flex flex-col">
+  <!-- Dropdown at the very top, centered -->
+  <div class="w-full flex justify-center pt-4 pb-2">
+    <form id="model-form">
+      <select id="models" name="model" hx-post="/set-model" hx-trigger="input changed" hx-swap="none"
+        class="bg-base-200 bg-opacity-80 rounded-lg px-6 py-3 shadow-lg text-xl font-semibold text-center w-auto max-w-lg">
+        {{range .Models}}
+        <option value="{{.}}" {{if eq . $.CurrentModel}}selected{{end}}>{{.}}</option>
+        {{end}}
+      </select>
+    </form>
+  </div>
+  <div
+    class="flex-1 w-full max-w-none max-h-none bg-base-100 shadow-xl rounded-none p-0 m-0 flex flex-col overflow-hidden">
+    <div name="chat-window" id="chat-window"
+      class="flex-1 overflow-y-auto bg-base-300 rounded-none p-4 max-h-screen relative">
+      <!-- Chat messages will appear here -->
+      <div id="loading-spinner" class="absolute inset-0 flex items-center justify-center z-10" style="display: none;">
+        <div class="flex flex-col items-center bg-base-300 bg-opacity-95 rounded-xl px-8 py-6 shadow-lg">
+          <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-primary"></div>
+          <span class="mt-4 text-lg text-base-content font-semibold">Waiting for response...</span>
+        </div>
+      </div>
+    </div>
+    <form enctype="multipart/form-data" id="form-prompt" hx-post="/chat" hx-target="#chat-window" hx-swap="beforeend"
+      class="flex flex-col gap-2 border-t bg-base-100 w-full p-4">
+      <div class="flex flex-row gap-4 items-center mb-2 justify-start">
+        <label class="flex flex-col items-center cursor-pointer">
+          <span class="text-xs text-base-content mb-1">Files</span>
+          <input name="files" type="file" multiple
+            class="file-input file-input-bordered w-full max-w-xs border-2 border-primary focus:border-primary focus:ring-2 focus:ring-primary" />
+        </label>
+      </div>
+      <div class="flex flex-row gap-2 items-center">
+        <input id="prompt" name="prompt" type="text" placeholder="Example: Explain gravity like I'm 5."
+          class="input input-bordered flex-1 min-w-0 border-2 border-primary focus:border-primary focus:ring-2 focus:ring-primary" />
+        <button type="submit" class="btn btn-primary ml-2">Send</button>
+      </div>
+    </form>
+  </div>
+  <script>
+    // Show spinner on form submit
+    document.getElementById('form-prompt').addEventListener('submit', function () {
+      document.getElementById('loading-spinner').style.display = 'flex';
+    });
+
+    // Hide spinner after chat response is swapped in
+    document.body.addEventListener('htmx:afterSwap', function (evt) {
+      if (evt.detail.target.id === "chat-window") {
+        document.getElementById('loading-spinner').style.display = 'none';
+        const chatWindow = document.getElementById("chat-window");
+        chatWindow.scrollTop = chatWindow.scrollHeight;
+      }
+    });
+  </script>
+</body>
+<!-- document.addEventListener('DOMContentLoaded', (event) => { -->
+<!--   document.body.addEventListener('htmx:beforeSwap', function (evt) { -->
+<!--     if (evt.detail.xhr.status === 400) { -->
+<!--       evt.detail.shouldSwap = true; // Allow the error message to be swapped in -->
+<!--       evt.detail, isError = false; -->
+<!--     } -->
+<!--   }); -->
+<!-- }) -->
+
+</html>

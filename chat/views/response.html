@@ -1,0 +1,14 @@
+<div name="chat-window" id="chat-window" class="flex-1 overflow-y-auto mb-0 bg-base-300 rounded-none p-4">
+  <div style="display: flex; justify-content: flex-end; margin-bottom: 8px;">
+    <span
+      style="background: #89b4fa; color: #1e1e2e; padding: 8px 16px; border-radius: 16px 0 16px 16px; max-width: 70%; display: inline-block;">
+      {{.Prompt}}
+    </span>
+  </div>
+  <div style="display: flex; justify-content: flex-start;">
+    <span
+      style="background: #a6e3a1; color: #1e1e2e; padding: 8px 16px; border-radius: 0 16px 16px 16px; max-width: 70%; display: inline-block;">
+      {{.Resp}}
+    </span>
+  </div>
+</div>
