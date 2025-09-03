@@ -1,8 +1,12 @@
 # Schlama Chat Application
 
-Schlama is a modern chat application built with Go (Golang) that provides a sleek and user-friendly interface. It focuses as a CLI tool but offers a web-interface for GUI lovers.
+Schlama is a modern chat application built with Go (Golang) that provides a sleek and user-friendly interface. It focuses as a CLI tool but offers a light web-interface for GUI lovers.
 
 ## Features
+
+> [!NOTE]
+> There is still something fishy with the context handling.
+> If you encounter any issues, please open an issue on GitHub.
 
 ### CLI
 
@@ -13,9 +17,29 @@ The CLI makes it easy to chat with local models, install new ones and add files 
 The web app is just a chat interface for those who like GUIs.
 It can select local models and you are able to add files to your prompt.
 
+## Screenshots
+
+<details>
+  <summary>Show CLI</summary>
+
+  ![Screenshot](./img/2025-09-03_19-34-48_FlameShot.png)
+  ![Screenshot](./img/2025-09-03_19-39-40_FlameShot.png)
+  ![Screenshot](./img/2025-09-03_19-39-57_FlameShot.png)
+  ![Screenshot](./img/2025-09-03_19-40-34_FlameShot.png)
+
+</details>
+
+<details>
+  <summary>Show Web-App</summary>
+
+  ![Screenshot](./img/2025-09-03_19-41-20_FlameShot.png)
+  ![Screenshot](./img/2025-09-03_19-41-36_FlameShot.png)
+
+</details>
+
 ## Prerequisites
 
-- Go 1.20 or later
+- Go 1.24 or later
 - Ollama 
 
 ## Installation
@@ -32,11 +56,6 @@ It can select local models and you are able to add files to your prompt.
    ```bash
    make build
    ```
-   On Windows:
-
-    ```bash
-    make build_win
-    ```
 
 3. Run the application:
 
@@ -44,77 +63,58 @@ It can select local models and you are able to add files to your prompt.
    make run
    ```
 
-   On Windows:
-
-    ```bash
-    make run_win
-    ```
-
 Or make sure you have the '\$GOPATH' variable set and in '\$PATH' then just:
 
-```bash
-make install
-```
+   ```bash
+   make install
+   ```
 
 After that you should be able to use it by just typing 'schlama' in the command line.
 
 ## Usage
 
-### Web Application
-
-- First start the application with:
-
-    ```bash
-    ./bin/schlama chat
-    ```
-
-- Access the application in your browser at `http://localhost:8080`.
-- Use the dropdown menu to select a model.
-- Enter your message in the text input and click "Send".
-- Upload files using the file input above the text box.
-
 ### Command-Line Tools
 
 - **Get Help**:
 
-    ```bash
-    ./bin/schlama -h or ./bin/schlama --help
-    ```
+  ```bash
+  schlama -h or schlama --help
+  ```
 
 - **List Models**:
 
   ```bash
-  ./bin/schlama list
+  schlama list
   ```
 
 - **Show Local Models**:
 
   ```bash
-  ./bin/schlama list --local
+  schlama list --local
   ```
 
 - **Select Model**:
 
   ```bash
-  ./bin/schlama select <model>
+  schlama select <model>
   ```
 
 - **Send Prompt**:
 
   ```bash
-  ./bin/schlama prompt "Your message here"
+  schlama prompt "Your message here"
   ```
 
 - **Send Prompt with File**:
 
   ```bash
-  ./bin/schlama prompt "Your message here" --file /path/to/file
+  schlama prompt "Your message here" --file /path/to/file
   ```
 
 - **Send Prompt with Directory content**:
 
   ```bash
-  ./bin/schlama prompt "Your message here" --directory /path/to/directory
+  schlama prompt "Your message here" --directory /path/to/directory
   ```
 
 - **Send Prompt with Images content**:
@@ -123,30 +123,43 @@ After that you should be able to use it by just typing 'schlama' in the command 
   Environment variables can be used to specify paths, e.g., `$HOME/image.jpg`.
 
   ```bash
-  ./bin/schlama prompt "Your message here" --images /path/to/image,/path/to/another/image,...
+  schlama prompt "Your message here" --images /path/to/image,/path/to/another/image,...
   ``` 
 
 - **Install Model**:
 
   ```bash
-  ./bin/schlama pull <model>
+  schlama pull <model>
   ```
 
 - **Uninstall Model**:
 
   ```bash
-  ./bin/schlama rm <model>
+  schlama rm <model>
   ```
 - **Show Model Info**:
 
   ```bash
-  ./bin/schlama show <model>
+  schlama show <model>
   ```
 - **Start interactive Shell**:
 
-    ```bash
-    ./bin/schlama run <model>
-    ```
+  ```bash
+  schlama run <model>
+  ```
+
+### Web Application
+
+- First start the application with:
+
+  ```bash
+  schlama chat
+  ```
+
+- Access the application in your browser at `http://localhost:8080`.
+- Use the dropdown menu to select a model.
+- Enter your message in the text input and click "Send".
+- Upload files using the file input above the text box.
 
 ## Contributing
 
